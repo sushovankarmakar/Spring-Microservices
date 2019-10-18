@@ -1,8 +1,16 @@
-package com.tavisca.gce.ExceptionHandlerAPI.logger;
+package com.tavisca.gce.ExceptionHandlerAPI.model;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
+@Document
 public class ExceptionResponse {
+
+    @Id
+    private ObjectId id;
     private Date timestamp;
     private String message;
     private String details;
@@ -12,6 +20,14 @@ public class ExceptionResponse {
         this.timestamp = timestamp;
         this.message = message;
         this.details = details;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public Date getTimestamp() {
@@ -36,5 +52,15 @@ public class ExceptionResponse {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    @Override
+    public String toString() {
+        return "ExceptionResponse{" +
+                "id=" + id +
+                ", timestamp=" + timestamp +
+                ", message='" + message + '\'' +
+                ", details='" + details + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.tavisca.gce.DBValidatorAPI.controller;
 
+import com.google.gson.Gson;
 import com.tavisca.gce.DBValidatorAPI.model.Footballer;
 import com.tavisca.gce.DBValidatorAPI.repository.FootballerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,12 @@ public class ValidationController {
     FootballerRepository footballerRepository;
 
     @PostMapping("/validate")
-    public String addFootballer(@RequestBody Footballer footballer) throws Exception {
+    public String addFootballer(@RequestBody String soccer) throws Exception {
+
+        System.out.println(soccer);
+        Gson gson = new Gson();
+        Footballer footballer = gson.fromJson(soccer, Footballer.class);
+        System.out.println(footballer);
 
         if(footballer.getFid() < 0 ) {
             throw new Exception("Footballer id is not valid");
