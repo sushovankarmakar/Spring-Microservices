@@ -13,7 +13,24 @@ public class ValidationController {
     FootballerRepository footballerRepository;
 
     @PostMapping("/validate")
-    public String addFootballer(@RequestBody Footballer footballer){
+    public String addFootballer(@RequestBody Footballer footballer) throws Exception {
+
+        if(footballer.getFid() < 0 ) {
+            throw new Exception("Footballer id is not valid");
+        }
+        else if (footballer.getName().length() <= 0 ||footballer.getName() == null ){
+            throw new Exception("There is no name");
+        }
+        else if (footballer.getTeam().length() <= 0 ||footballer.getTeam() == null ){
+            throw new Exception("There is no team");
+        }
+        else if (footballer.getUsername().length() <= 0 || footballer.getUsername() == null ){
+            throw new Exception("There is no username");
+        }
+        else if (footballer.getPassword().length() < 8 || footballer.getPassword() == null ){
+            throw new Exception("Password length is less than 8 character");
+        }
+
         footballerRepository.save(footballer);
         return "User Added";
     }

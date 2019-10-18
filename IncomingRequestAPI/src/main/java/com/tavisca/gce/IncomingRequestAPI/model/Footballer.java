@@ -1,7 +1,7 @@
 package com.tavisca.gce.IncomingRequestAPI.model;
 
 public class Footballer {
-    private long fid;
+    private int fid;
     private String name;
     private String team;
     private String username;
@@ -11,7 +11,7 @@ public class Footballer {
         return fid;
     }
 
-    public void setFid(long fid) {
+    public void setFid(int fid) {
         this.fid = fid;
     }
 
