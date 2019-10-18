@@ -3,14 +3,14 @@ package com.tavisca.gce.IncomingRequestAPI.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 public class UserInput {
 
     @Id
-    private String id;
+    private String tid;
     private String input;
+    private boolean isValid;
     private Date timestamp;
     private String serviceFrom;
     private String serviceTo;
@@ -19,21 +19,31 @@ public class UserInput {
         super();
     }
 
-    public UserInput(String input, Date timestamp, String serviceFrom, String serviceTo) {
+    public UserInput(String transaction_id, String input, boolean isValid,
+                     Date timestamp, String serviceFrom, String serviceTo) {
         super();
-        this.id = UUID.randomUUID().toString();
+        this.tid = transaction_id;
         this.input = input;
+        this.isValid = isValid;
         this.timestamp = timestamp;
         this.serviceFrom = serviceFrom;
         this.serviceTo = serviceTo;
     }
 
-    public String getId() {
-        return id;
+    public String getTid() {
+        return tid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 
     public String getInput() {
@@ -71,7 +81,7 @@ public class UserInput {
     @Override
     public String toString() {
         return "UserInput{" +
-                "id='" + id + '\'' +
+                "tid='" + tid + '\'' +
                 ", input='" + input + '\'' +
                 ", timestamp=" + timestamp +
                 ", serviceFrom='" + serviceFrom + '\'' +

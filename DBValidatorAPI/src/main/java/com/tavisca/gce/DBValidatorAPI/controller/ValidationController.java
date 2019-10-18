@@ -37,6 +37,7 @@ public class ValidationController {
             throw new Exception("Password length is less than 8 character");
         }
 
+
         footballerRepository.save(footballer);
         return "User Added";
     }

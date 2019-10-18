@@ -15,8 +15,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleExceptions (Exception exception, WebRequest webRequest){
-        ExceptionResponse exceptionResponse = new ExceptionResponse( new Date(), exception.getMessage(),
-                webRequest.getDescription(false));
+        /*ExceptionResponse exceptionResponse = new ExceptionResponse( new Date(), exception.getMessage(),
+                webRequest.getDescription(false));*/
         final URI uri = URI.create("http://localhost:9090/exception/exceptionFound");
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(uri, exception, ExceptionResponse.class);
