@@ -3,12 +3,13 @@ package com.tavisca.gce.IncomingRequestAPI.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 public class UserInput {
 
     @Id
-    private int id;
+    private String id;
     private String input;
     private Date timestamp;
     private String serviceFrom;
@@ -18,20 +19,20 @@ public class UserInput {
         super();
     }
 
-    public UserInput(int id, String input, Date timestamp, String serviceFrom, String serviceTo) {
+    public UserInput(String input, Date timestamp, String serviceFrom, String serviceTo) {
         super();
-        this.id = id;
+        this.id = UUID.randomUUID().toString();
         this.input = input;
         this.timestamp = timestamp;
         this.serviceFrom = serviceFrom;
         this.serviceTo = serviceTo;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

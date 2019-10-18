@@ -23,7 +23,7 @@ public class IncomingRequestController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(uri, footballer, String.class);
         //throw new RuntimeException("Exception while sending data");
-        UserInput userInput = new UserInput( 100, footballer, new Date(),
+        UserInput userInput = new UserInput(footballer, new Date(),
                 "IncomingRequestAPI", "DBValidatorAPI");
         repository.save(userInput);
         return stringResponseEntity;
