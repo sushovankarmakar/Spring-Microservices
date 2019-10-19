@@ -27,7 +27,7 @@ public class ExceptionLogger extends ResponseEntityExceptionHandler {
                 request.getDescription(false));
         repository.save(exceptionResponse);
         System.out.println(exception);
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.ACCEPTED );
     }
 
     @GetMapping("/allExceptions")

@@ -1,11 +1,6 @@
 package com.tavisca.gce.DBValidatorAPI.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class Footballer {
-    @Id
     private int fid;
     private String name;
     private String team;

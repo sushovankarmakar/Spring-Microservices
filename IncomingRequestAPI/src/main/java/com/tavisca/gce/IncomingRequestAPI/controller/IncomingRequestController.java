@@ -33,8 +33,6 @@ public class IncomingRequestController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(uri, footballer, String.class);
 
-        //throw new RuntimeException("Exception while sending data");
-
         insertRequest(UUID.randomUUID().toString(), footballer, true, new Date(),
                 request.getRequestURI(), uri.getPath());
         return stringResponseEntity;
