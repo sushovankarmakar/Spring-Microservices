@@ -2,6 +2,7 @@ package com.tavisca.gce.IncomingRequestAPI.controller;
 
 import com.tavisca.gce.IncomingRequestAPI.model.UserInput;
 import com.tavisca.gce.IncomingRequestAPI.repository.UserInputRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,19 @@ public class IncomingRequestController {
         else if(!footballer.contains("username")) throw new RuntimeException("There is no username field in football object");
         else if(!footballer.contains("password")) throw new RuntimeException("There is no password field in football object");
 
+        String transactionId = UUID.randomUUID().toString();
+        JSONObject footballerJsonObject = new JSONObject();
+        footballerJsonObject.put("tid", transactionId);
+        footballerJsonObject.put("footballerDetails", footballer);
+
+        System.out.println(footballerJsonObject);
+
         final URI uri = URI.create("http://localhost:9002/validator/validate");
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(uri, footballer, String.class);
+        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(uri, footballerJsonObject.toString(),
+                String.class);
 
-        insertRequest(UUID.randomUUID().toString(), footballer, true, new Date(),
+        insertRequest(transactionId, footballer, true, new Date(),
                 request.getRequestURI(), uri.getPath());
         return stringResponseEntity;
     }

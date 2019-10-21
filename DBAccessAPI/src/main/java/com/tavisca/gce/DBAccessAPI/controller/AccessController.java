@@ -1,9 +1,11 @@
 package com.tavisca.gce.DBAccessAPI.controller;
 
+import com.google.gson.Gson;
 import com.tavisca.gce.DBAccessAPI.model.Footballer;
 import com.tavisca.gce.DBAccessAPI.model.Request;
 import com.tavisca.gce.DBAccessAPI.repository.FootballerRepository;
 import com.tavisca.gce.DBAccessAPI.repository.RequestRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,14 +47,20 @@ public class AccessController {
     }
 
     @PostMapping("/saveFootballerDetails")
-    public String saveToFootballerDatabase(@RequestBody Footballer footballer, HttpServletRequest request){
+    public String saveToFootballerDatabase(@RequestBody String soccer, HttpServletRequest request){
+
+        JSONObject footballerJsonObject = new JSONObject(soccer);
+        String transactionId = footballerJsonObject.getString("tid");
+        Gson gson = new Gson();
+        Footballer footballer = gson.fromJson(footballerJsonObject.getString("footballerDetails"),
+                Footballer.class);
 
         footballerRepository.save(footballer);
 
         if(!footballerRepository.findById(footballer.getFid()).isPresent())
             throw new RuntimeException("This footballer is failed to save in the database");
 
-        insertRequest(UUID.randomUUID().toString(), true, new Date(),
+        insertRequest(transactionId, true, new Date(),
                 request.getRequestURI(), "--");
 
         System.out.println("This footballer is added in the database");

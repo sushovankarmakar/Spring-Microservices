@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.tavisca.gce.DBValidatorAPI.model.Footballer;
 import com.tavisca.gce.DBValidatorAPI.model.ValidationCheck;
 import com.tavisca.gce.DBValidatorAPI.repository.ValidationCheckRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Date;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/validator")
@@ -25,8 +25,13 @@ public class ValidationController {
     public String validateFootballer(@RequestBody String soccer, HttpServletRequest request) throws Exception {
 
         System.out.println(soccer);
+
+        JSONObject footballerJsonObject = new JSONObject(soccer);
+        String transactionId = footballerJsonObject.getString("tid");
+
         Gson gson = new Gson();
-        Footballer footballer = gson.fromJson(soccer, Footballer.class);
+        Footballer footballer = gson.fromJson(footballerJsonObject.getString("footballerDetails"),
+                Footballer.class);
         System.out.println(footballer);
 
         if(footballer.getFid() < 0 )
@@ -42,9 +47,10 @@ public class ValidationController {
 
         final URI uri = URI.create("http://localhost:8080/football/saveFootballerDetails");
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(uri, footballer, String.class);
+        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(uri, footballerJsonObject.toString(),
+                String.class);
 
-        insertRequest(UUID.randomUUID().toString(), soccer, true, new Date(),
+        insertRequest(transactionId, soccer, true, new Date(),
                 request.getRequestURI(), uri.getPath());
 
         return "This is a valid user";
@@ -55,5 +61,4 @@ public class ValidationController {
 
         repository.save( new ValidationCheck(transactionId, footballer, isValid, timestamp, fromService, toService));
     }
-
 }
